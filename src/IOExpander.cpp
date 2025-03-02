@@ -73,9 +73,9 @@ static const uint8_t PIN_Px[4] = {0x40, 0x50, (uint8_t)-1, 0x70};
 static const uint8_t PIN_PxS[4] = {0xc2, 0xc4, (uint8_t)-1, 0xc0};
 static const uint8_t PIN_MASK_P[4] = {REG_INT_MASK_P0, REG_INT_MASK_P1, (uint8_t)-1, REG_INT_MASK_P3};
 
-// For PWM channels
-static const uint8_t PIN_PWML[6] = {0x9a, 0x9b, 0x9c, 0x9d, 0x8c, 0x8d};
-static const uint8_t PIN_PWMH[6] = {0x92, 0x93, 0x94, 0x95, 0x84, 0x85};
+// For PWM channels – UPDATED to match original register remapping:
+static const uint8_t PIN_PWML[6] = {0x9a, 0x9b, 0x9c, 0x9d, 0xca, 0xcb};
+static const uint8_t PIN_PWMH[6] = {0x92, 0x93, 0x94, 0x95, 0xc7, 0xc8};
 
 // For toggling IO vs PWM
 // Example: 0x9e => PIOCON0, 0xc9 => PIOCON1

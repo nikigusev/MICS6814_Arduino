@@ -15,17 +15,18 @@ bool MICS6814::init(bool skip_chip_id_check) {
   ioe.set_mode(MICS_NH3,  IOExpander::PIN_MODE_ADC);
   ioe.set_mode(MICS_OX,   IOExpander::PIN_MODE_ADC);
 
-  // Heater pin as open-drain, default OFF => high
+  // Heater pin as open-drain; in the original the heater is active LOW.
+  // Setting default state to LOW (heater ON) to match original behavior.
   ioe.set_mode(MICS_HEATER_EN, IOExpander::PIN_MODE_OD);
-  ioe.output(MICS_HEATER_EN, 1);
+  ioe.output(MICS_HEATER_EN, 0);
 
-  // Set up LED pins as PWM
+  // Set up LED pins as PWM with inverted output (to match original's INVERT_OUTPUT setting)
   uint16_t period = (uint16_t)(255.0f / brightness);
   ioe.set_pwm_period(period);
   ioe.set_pwm_control(2); // fast
-  ioe.set_mode(LED_R, IOExpander::PIN_MODE_PWM);
-  ioe.set_mode(LED_G, IOExpander::PIN_MODE_PWM);
-  ioe.set_mode(LED_B, IOExpander::PIN_MODE_PWM);
+  ioe.set_mode(LED_R, IOExpander::PIN_MODE_PWM, false, true);
+  ioe.set_mode(LED_G, IOExpander::PIN_MODE_PWM, false, true);
+  ioe.set_mode(LED_B, IOExpander::PIN_MODE_PWM, false, true);
 
   return true;
 }
@@ -47,14 +48,14 @@ void MICS6814::set_led(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void MICS6814::set_heater(bool on) {
-  // on => output LOW (since pin is OD)
+  // on => output LOW (since pin is open-drain and active low)
   // off => output HIGH
   ioe.output(MICS_HEATER_EN, on ? 0 : 1);
 }
 
 void MICS6814::disable_heater() {
   // set to input
-  ioe.output(MICS_HEATER_EN, 1); // ensure off
+  ioe.output(MICS_HEATER_EN, 1); // ensure heater is off
   ioe.set_mode(MICS_HEATER_EN, IOExpander::PIN_MODE_IN);
 }
 

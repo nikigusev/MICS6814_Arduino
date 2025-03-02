@@ -62,14 +62,13 @@ private:
   IOExpander &ioe;
   float brightness;
 
-  // Pin definitions from the original code:
   static const uint8_t MICS_VREF      = 9;   // internal reference pin
   static const uint8_t MICS_RED       = 10;  // "reducing" channel
   static const uint8_t MICS_NH3       = 11;  // ammonia channel
   static const uint8_t MICS_OX        = 12;  // "oxidising" channel
   static const uint8_t MICS_HEATER_EN = 13;  // heater pin
 
-  static const uint8_t LED_R = 1;
-  static const uint8_t LED_G = 2;
-  static const uint8_t LED_B = 3;
+  static const uint8_t LED_R = 3;
+  static const uint8_t LED_G = 7;
+  static const uint8_t LED_B = 2;
 };
