@@ -15,7 +15,7 @@
  */
 
 static const uint8_t MICS6814_ADDRESS = 0x19;   // default
-static const bool    DEBUG            = true;
+static const bool    DEBUG            = false;
 
 // PimoroniI2C object
 PimoroniI2C pimoroni_i2c(Wire, 100000); // 100kHz
