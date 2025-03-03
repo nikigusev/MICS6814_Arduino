@@ -15,9 +15,9 @@ bool MICS6814::init(bool skip_chip_id_check) {
   ioe.set_mode(MICS_NH3,  IOExpander::PIN_MODE_ADC);
   ioe.set_mode(MICS_OX,   IOExpander::PIN_MODE_ADC);
 
-  // Heater pin as open-drain; in the original the heater is active LOW.
+  // Heater pin as Output, Push-Pull mode; heater is active LOW.
   // Setting default state to LOW (heater ON) to match original behavior.
-  ioe.set_mode(MICS_HEATER_EN, IOExpander::PIN_MODE_OD);
+  ioe.set_mode(MICS_HEATER_EN, IOExpander::PIN_MODE_PP);
   ioe.output(MICS_HEATER_EN, 0);
 
   // Set up LED pins as PWM with inverted output (to match original's INVERT_OUTPUT setting)
