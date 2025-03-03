@@ -216,22 +216,20 @@ IOExpander::IOExpander(PimoroniI2C *i2c,
   }
 
   // The original code enumerates 14 pins in a specific order. We'll replicate that:
-  // This is the same array as pimoroni's "pins{ ... }" from the code:
-  pins[0] = Pin::pwm(1, 5, 5, REG_IO_PWM_1); // (port=1,pin=5), pwmCh=5 -> (PWML5/PWMH5)
-  pins[1] = Pin::pwm(1, 0, 2, REG_IO_PWM_0);
-  pins[2] = Pin::pwm(1, 2, 0, REG_IO_PWM_0);
-  pins[3] = Pin::pwm(1, 4, 1, REG_IO_PWM_1);
-  pins[4] = Pin::pwm(0, 0, 3, REG_IO_PWM_0);
-  pins[5] = Pin::pwm(0, 1, 4, REG_IO_PWM_0);
-  // 7 can be ADC or PWM:
-  pins[6] = Pin::adc_or_pwm(1, 1, 7, 1, REG_IO_PWM_0);
-  pins[7] = Pin::adc_or_pwm(0, 3, 6, 5, REG_IO_PWM_0);
-  pins[8] = Pin::adc_or_pwm(0, 4, 5, 3, REG_IO_PWM_1);
-  pins[9] = Pin::adc(3, 0, 1);
-  pins[10] = Pin::adc(0, 6, 3);
-  pins[11] = Pin::adc_or_pwm(0, 5, 4, 2, REG_IO_PWM_1);
-  pins[12] = Pin::adc(0, 7, 2);
-  pins[13] = Pin::adc(1, 7, 0);
+  pins[0]  = Pin::pwm(1, 5, 5, REG_IO_PWM_1);           // Port1, pin5, PWM ch.5
+  pins[1]  = Pin::pwm(1, 0, 2, REG_IO_PWM_0);           // Port1, pin0, PWM ch.2
+  pins[2]  = Pin::pwm(1, 2, 0, REG_IO_PWM_0);           // Port1, pin2, PWM ch.0
+  pins[3]  = Pin::pwm(1, 4, 1, REG_IO_PWM_1);           // Port1, pin4, PWM ch.1
+  pins[4]  = Pin::pwm(0, 0, 3, REG_IO_PWM_0);           // Port0, pin0, PWM ch.3
+  pins[5]  = Pin::pwm(0, 1, 4, REG_IO_PWM_0);           // Port0, pin1, PWM ch.4
+  pins[6]  = Pin::adc_or_pwm(1, 1, 7, 1, REG_IO_PWM_0); // Port1, pin1, ADC channel 7
+  pins[7]  = Pin::adc_or_pwm(0, 3, 6, 5, REG_IO_PWM_0); // Port0, pin3, ADC channel 6, PWM ch.5
+  pins[8]  = Pin::adc_or_pwm(0, 4, 5, 3, REG_IO_PWM_1); // Port0, pin4, ADC channel 5, PWM ch.3
+  pins[9]  = Pin::adc(3, 0, 1);                         // Port3, pin0, ADC channel 1
+  pins[10] = Pin::adc(0, 6, 3);                         // Port0, pin6, ADC channel 3
+  pins[11] = Pin::adc_or_pwm(0, 5, 4, 2, REG_IO_PWM_1); // Port0, pin5, ADC channel 4, PWM ch.2
+  pins[12] = Pin::adc(0, 7, 2);                         // Port0, pin7, ADC channel 2
+  pins[13] = Pin::adc(1, 7, 0);                         // Port1, pin7, ADC channel 0
 }
 
 ////////////////////////////////////////////////////////
