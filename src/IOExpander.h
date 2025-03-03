@@ -4,9 +4,9 @@
 #include "PimoroniI2C.h"
 
 /*
- * A port of Pimoroni's IOExpander (Nuvoton MS51) driver, with
- * FULL interrupt pin handling. This code re-implements all
- * features from the original Pico version, including:
+ * A port of Pimoroni's IOExpander (Nuvoton MS51) driver.
+ * This code re-implements all features from the original
+ * version, including:
  *  - pin modes (GPIO, ADC, PWM, open-drain, etc.)
  *  - reading/writing digital, PWM, ADC
  *  - interrupt management (enable_interrupt_out, set_pin_interrupt)
@@ -15,12 +15,10 @@
 
 class IOExpander {
 public:
-  // The expected chip ID is 0xe26a from Pimoroni's docs
   static const uint16_t CHIP_ID   = 0xe26a;
   static const uint8_t  NUM_PINS  = 14; // P0..P1..P3-based pins
 
   // Some pin mode bit patterns used in pimoroni code
-  // See original code for how these bits break down:
   //   (lowest 2 bits -> Quasi-bidirectional=0,PP=1,Input=2,OD=3)
   //   bit2 -> 1 => PWM
   //   bit3 -> 1 => ADC
@@ -31,16 +29,9 @@ public:
   static const uint8_t PIN_MODE_OD     = 0x03; // open-drain
   static const uint8_t PIN_MODE_PWM    = 0x04;
   static const uint8_t PIN_MODE_ADC    = 0x08;
-  // Example combos:
-  //   (PIN_MODE_IN | PIN_MODE_ADC)  =>  0x0A is "ADC input"
-  //   (PIN_MODE_OD | PIN_MODE_PWM)  =>  0x07 is "PWM open-drain" etc.
 
-  // For convenience, define some simpler aliases:
-  // (the actual code used something like PIN_MODE_ADC = 0x08, etc.)
-  // We'll keep these distinct so we can replicate all usage.
   static const uint8_t PIN_UNUSED = 0xFF;
 
-  // The clock freq for the MS51: 48MHz
   static const uint32_t CLOCK_FREQ = 48000000;
   static const uint16_t MAX_PERIOD = 0xFFFF;
   static const uint8_t  MAX_DIVIDER = 128;

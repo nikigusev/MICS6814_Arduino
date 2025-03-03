@@ -62,13 +62,13 @@ private:
   IOExpander &ioe;
   float brightness;
 
-  static const uint8_t MICS_VREF      = 14;   // maps to pins[13]: ADC channel from Port1, pin7, channel 0
+  static const uint8_t MICS_VREF      = 14;   // maps to pins[13]: ADC channel from Port1, pin7, channel 0 (could be P1.4 AIN0 - 3v3?)
   static const uint8_t MICS_RED       = 13;   // maps to pins[12]: ADC channel from Port0, pin7, channel 2
   static const uint8_t MICS_NH3       = 11;   // maps to pins[10]: ADC channel from Port0, pin6, channel 3
   static const uint8_t MICS_OX        = 12;   // maps to pins[11]: ADC_OR_PWM from Port0, pin5, channel 4, PWM channel 2
   static const uint8_t MICS_HEATER_EN = 1;    // maps to pins[0]: PWM channel from Port1, pin5, channel 5
 
-  static const uint8_t LED_R = 3;  // as originally defined (e.g. Port1, pin4, PWM channel 1)
-  static const uint8_t LED_G = 7;  // as originally defined (e.g. Port0, pin3, ADC_OR_PWM)
-  static const uint8_t LED_B = 2;  // as originally defined (e.g. Port1, pin2, PWM channel 0)
+  static const uint8_t LED_R = 3;  // P1.2
+  static const uint8_t LED_G = 7;  // P1.1
+  static const uint8_t LED_B = 2;  // P1.0
 };

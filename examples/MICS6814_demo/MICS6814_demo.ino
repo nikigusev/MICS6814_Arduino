@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "PimoroniI2C.h"
 #include "IOExpander.h"
 #include "MICS6814.h"
@@ -14,8 +13,8 @@
  * The default breakout address is 0x19.
  */
 
-static const uint8_t MICS6814_ADDRESS = 0x19;   // default
-static const bool    DEBUG            = false;
+static const uint8_t MICS6814_ADDRESS = 0x19;
+static const bool    DEBUG            = true;
 
 // PimoroniI2C object
 PimoroniI2C pimoroni_i2c(Wire, 100000); // 100kHz

@@ -1,70 +1,44 @@
-/*
-  - Initialize the MICS6814 breakout
-  - Adjust the LED brightness
-  - Set an RGB color
+#include "MICS6814Wrapper.h"
 
-  Wiring on Arduino UNO:
-    SDA (A4) -> breakout SDA
-    SCL (A5) -> breakout SCL
-    5V       -> breakout VIN  (3-5V tolerant)
-    GND      -> breakout GND
-
-  This example doesn't read from the sensor. It just configures the LED.
-  If you want to read the gas channels, see the "gas_demo.ino" example.
-*/
-
-#include <Arduino.h>
-#include "PimoroniI2C.h"
-#include "IOExpander.h"
-#include "MICS6814.h"
-
-// Default I2C address for MICS6814 breakout
-static const uint8_t MICS6814_ADDRESS = 0x19;
-
-// Create I2C interface
-PimoroniI2C pimoroni_i2c(Wire, 100000);
-
-// Create IOExpander
-IOExpander ioe(&pimoroni_i2c, MICS6814_ADDRESS, IOExpander::PIN_UNUSED);
-
-// Create MICS6814 sensor object
-MICS6814 mics(ioe);
-
-// You can adjust these to set the LED color
-// or read them from the serial monitor in a more advanced version.
-static const uint8_t R = 128;
-static const uint8_t G = 64;
-static const uint8_t B = 255;
+MICS6814Wrapper sensor(false, 0x19); // debug = false, default I2C address
 
 void setup() {
   Serial.begin(115200);
-  while(!Serial) { delay(10); }
-  Serial.println("led_demo.ino - Set the RGB LED on the MICS6814 breakout.");
-
-  // Initialize sensor
-  if(!mics.init()) {
-    Serial.println("MICS6814 init failed! Check wiring/address.");
-    while(true) { delay(1000); }
+  while (!Serial);
+  if (sensor.init()) {
+    Serial.println("LED control initialized successfully.");
+  } else {
+    Serial.println("LED control initialization failed.");
   }
-
-  // Optionally adjust PWM period and brightness
-  // By default, MICS6814::init() sets a period based on brightness.
-  // If you want a very specific period:
-  ioe.set_pwm_period(4096);  // from led.py
-  mics.set_brightness(0.1f); // from led.py
-
-  // Set LED color
-  Serial.print("Setting LED color to (");
-  Serial.print(R); Serial.print(", ");
-  Serial.print(G); Serial.print(", ");
-  Serial.print(B); Serial.println(").");
-
-  mics.set_led(R, G, B);
-
-  // No loop code needed; we can just hold here
+  
+  // Turn the heater OFF
+  sensor.disable_heater();
+  
+  // Set LED brightness to 50% (value between 0.01 and 1.0)
+  sensor.setBrightness(0.5f);
+  
+  // Set LED PWM frequency to 500 Hz using the new PWM control function.
+  // This will configure the underlying IOExpander's PWM settings.
+  uint16_t pwmPeriod = sensor.setLEDPWMFrequency(500.0f);
+  Serial.print("LED PWM period set to: ");
+  Serial.println(pwmPeriod);
 }
 
 void loop() {
-  // The LED stays in the chosen color & brightness
-  // You could read the sensor or do other tasks here...
+  // Define an array of rainbow colors: Red, Orange, Yellow, Green, Blue, Indigo, Violet.
+  uint8_t colors[][3] = {
+    {255,   0,   0},    // Red
+    {255, 127,   0},    // Orange
+    {255, 255,   0},    // Yellow
+    {  0, 255,   0},    // Green
+    {  0,   0, 255},    // Blue
+    { 75,   0, 130},    // Indigo
+    {148,   0, 211}     // Violet
+  };
+  const uint8_t numColors = sizeof(colors) / sizeof(colors[0]);
+  
+  for (uint8_t i = 0; i < numColors; i++) {
+    sensor.set_led(colors[i][0], colors[i][1], colors[i][2]);
+    delay(1000);
+  }
 }
